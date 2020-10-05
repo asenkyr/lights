@@ -30,12 +30,14 @@ namespace lights
             services.AddSingleton<SensorsController>();
             services.AddSingleton<ScenesController>();
             services.AddSingleton<GroupsController>();
+            services.AddSingleton<RulesController>();
 
             // proxies
             services.AddSingleton<LightsProxy>();
             services.AddSingleton<SensorsProxy>();
             services.AddSingleton<ScenesProxy>();
             services.AddSingleton<GroupsProxy>();
+            services.AddSingleton<RulesProxy>();
 
             return services;
         }
