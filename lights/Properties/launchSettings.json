@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "lights": {
+      "commandName": "Project",
+      "commandLineArgs": "lights"
+    }
+  }
+}
