@@ -8,6 +8,13 @@ namespace lights.PrettyPrinters
     {
         public static string BasicInfo(Sensor sensor)
         {
+            if (sensor is ZLLSwitch zll)
+                return $"{GenericBasicInfo(sensor)}, Bat: {zll.Config.BatteryLevel}%";
+            return GenericBasicInfo(sensor);
+        }
+
+        private static string GenericBasicInfo(Sensor sensor)
+        {
             return $"{sensor.Name}";
         }
 
