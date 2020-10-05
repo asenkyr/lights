@@ -11,11 +11,13 @@ namespace lights.Controllers
 
         private readonly LightsController _lightsController;
         private readonly SensorsController _sensorsController;
+        private readonly ScenesController _scenesController;
 
-        public RootController(LightsController lightsController, SensorsController sensorsController)
+        public RootController(LightsController lightsController, SensorsController sensorsController, ScenesController scenesController)
         {
             _lightsController = lightsController ?? throw new ArgumentNullException(nameof(lightsController));
             _sensorsController = sensorsController ?? throw new ArgumentNullException(nameof(sensorsController));
+            _scenesController = scenesController ?? throw new ArgumentNullException(nameof(scenesController));
         }
 
         [Command("lights", "Control the light api.")]
@@ -28,6 +30,12 @@ namespace lights.Controllers
         public Task SensorsAsync()
         {
             return _sensorsController.ProcessAsync(Arguments);
+        }
+
+        [Command("scenes", "Control the sensors api.")]
+        public Task ScenesAsync()
+        {
+            return _scenesController.ProcessAsync(Arguments);
         }
     }
 }
