@@ -2,7 +2,7 @@
 using System.Text;
 using lights.api.Models;
 
-namespace lights.api.PrettyPrinters
+namespace lights.PrettyPrinters
 {
     public static class LightPrettyPrinter
     {

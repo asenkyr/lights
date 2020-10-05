@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
-using lights.api.PrettyPrinters;
 using lights.api.Proxy;
 using lights.Attributes;
+using lights.PrettyPrinters;
 
 namespace lights.Controllers
 {

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using lights.api.Models;
 
-namespace lights.api.PrettyPrinters
+namespace lights.PrettyPrinters
 {
     public static class SensorsPrettyPrinter
     {

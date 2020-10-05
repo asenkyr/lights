@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using lights.api.Models;
-using lights.api.PrettyPrinters;
 using lights.api.Proxy;
 using lights.Attributes;
+using lights.PrettyPrinters;
 
 namespace lights.Controllers
 {
