@@ -8,9 +8,9 @@ namespace lights.api.Apis
     public interface IScenesApi
     {
         [Get("/{username}/scenes")]
-        Task<Dictionary<string, Scene>> GetScenes(string username);
+        Task<Dictionary<SceneId, Scene>> GetScenes(string username);
 
         [Get("/{username}/scenes/{id}")]
-        Task<Scene> GetScene(string username, int id);
+        Task<Scene> GetScene(string username, SceneId id);
     }
 }

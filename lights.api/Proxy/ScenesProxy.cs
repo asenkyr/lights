@@ -12,22 +12,22 @@ namespace lights.api.Proxy
     public class ScenesProxy
     {
         private readonly ApplicationConfig _applicationConfig;
-        private readonly IScenesApi _lightsApi;
+        private readonly IScenesApi _scenesApi;
 
         public ScenesProxy(ApplicationConfig applicationConfig)
         {
             _applicationConfig = applicationConfig ?? throw new ArgumentNullException(nameof(applicationConfig));
-            _lightsApi = RestService.For<IScenesApi>(_applicationConfig.BridgeConfig.HueBridgeUri);
+            _scenesApi = RestService.For<IScenesApi>(_applicationConfig.BridgeConfig.HueBridgeUri);
         }
 
-        public async Task<Dictionary<string, Scene>> GetScenesAsync()
+        public async Task<Dictionary<SceneId, Scene>> GetScenesAsync()
         {
-            return await _lightsApi.GetScenes(_applicationConfig.BridgeConfig.UserName);
+            return await _scenesApi.GetScenes(_applicationConfig.BridgeConfig.UserName);
         }
 
-        public async Task<Scene> GetSceneAsync(int id)
+        public async Task<Scene> GetSceneAsync(SceneId id)
         {
-            return await _lightsApi.GetScene(_applicationConfig.BridgeConfig.UserName, id);
+            return await _scenesApi.GetScene(_applicationConfig.BridgeConfig.UserName, id);
         }
     }
 }

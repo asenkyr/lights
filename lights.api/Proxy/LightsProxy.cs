@@ -19,17 +19,17 @@ namespace lights.api.Proxy
             _lightsApi = RestService.For<ILightsApi>(_applicationConfig.BridgeConfig.HueBridgeUri);
         }
 
-        public async Task<Dictionary<string, Light>> GetLightsAsync()
+        public async Task<Dictionary<LightId, Light>> GetLightsAsync()
         {
             return await _lightsApi.GetLights(_applicationConfig.BridgeConfig.UserName);
         }
 
-        public async Task SetStateAsync(int id, LightState state)
+        public async Task SetStateAsync(LightId id, LightState state)
         {
             var response = await _lightsApi.SetState(_applicationConfig.BridgeConfig.UserName, id, state);
         }
 
-        public async Task ToggleAsync(int id)
+        public async Task ToggleAsync(LightId id)
         {
             var currentLight = await _lightsApi.GetLight(_applicationConfig.BridgeConfig.UserName, id);
             var newState = new LightState {On = !currentLight.State.On};

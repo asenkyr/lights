@@ -22,7 +22,7 @@ namespace lights.Controllers
         [Command("ls", "List all accessible scenes.")]
         public async Task GetScenesAsync()
         {
-            var response = await _proxy.GetScenesAsync();
+            var response = await _proxy.GetGroupsAsync();
             Console.WriteLine(GroupsPrettyPrinter.BasicInfo(response));
         }
     }

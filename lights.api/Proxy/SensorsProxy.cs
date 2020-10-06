@@ -2,7 +2,6 @@
 using lights.common.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using lights.api.Models;
 using Refit;
@@ -20,7 +19,7 @@ namespace lights.api.Proxy
             _sensorsApi = RestService.For<ISensorsApi>(_applicationConfig.BridgeConfig.HueBridgeUri);
         }
 
-        public async Task<Dictionary<string, Sensor>> GetSensorsAsync()
+        public async Task<Dictionary<SensorId, Sensor>> GetSensorsAsync()
         {
             return await _sensorsApi.GetSensors(_applicationConfig.BridgeConfig.UserName);
         }

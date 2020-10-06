@@ -8,12 +8,12 @@ namespace lights.api.Apis
     public interface ILightsApi
     {
         [Get("/{username}/lights")]
-        Task<Dictionary<string,Light>> GetLights(string username);
+        Task<Dictionary<LightId, Light>> GetLights(string username);
 
         [Get("/{username}/lights/{id}")]
-        Task<Light> GetLight(string username, int id);
+        Task<Light> GetLight(string username, LightId id);
 
         [Put("/{username}/lights/{id}/state")]
-        Task<string> SetState(string username, int id, [Body]LightState lightState);
+        Task<string> SetState(string username, LightId id, [Body]LightState lightState);
     }
 }

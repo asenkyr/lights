@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lights", "lights\lights.csproj", "{1E393482-0D7B-412D-9B12-582DA333E1AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lights", "lights\lights.csproj", "{1E393482-0D7B-412D-9B12-582DA333E1AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lights.api", "lights.api\lights.api.csproj", "{0CAFC5BC-8EF7-40DE-8AA6-CFD4500618A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lights.api", "lights.api\lights.api.csproj", "{0CAFC5BC-8EF7-40DE-8AA6-CFD4500618A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lights.common", "lights.common\lights.common.csproj", "{58695BAC-BF69-4DEF-8CD8-9EC3F3238DE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lights.common", "lights.common\lights.common.csproj", "{58695BAC-BF69-4DEF-8CD8-9EC3F3238DE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lights.common.tests", "lights.common.tests\lights.common.tests.csproj", "{4804DF54-BFDF-46A2-9A3E-19E126B93287}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lights.common.tests", "lights.common.tests\lights.common.tests.csproj", "{4804DF54-BFDF-46A2-9A3E-19E126B93287}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lights.api.tests", "lights.api.tests\lights.api.tests.csproj", "{E77BC2A4-F08A-4055-8235-9F25140C75F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{4804DF54-BFDF-46A2-9A3E-19E126B93287}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4804DF54-BFDF-46A2-9A3E-19E126B93287}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4804DF54-BFDF-46A2-9A3E-19E126B93287}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E77BC2A4-F08A-4055-8235-9F25140C75F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E77BC2A4-F08A-4055-8235-9F25140C75F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E77BC2A4-F08A-4055-8235-9F25140C75F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E77BC2A4-F08A-4055-8235-9F25140C75F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

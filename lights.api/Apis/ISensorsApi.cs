@@ -8,7 +8,7 @@ namespace lights.api.Apis
     public interface ISensorsApi
     {
         [Get("/{username}/sensors")]
-        Task<Dictionary<string, Sensor>> GetSensors(string username);
+        Task<Dictionary<SensorId, Sensor>> GetSensors(string username);
 
         [Get("/{username}/sensors/{id}")]
         Task<Sensor> GetSensor(string username, int id);

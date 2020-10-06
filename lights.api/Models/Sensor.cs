@@ -1,9 +1,21 @@
 ﻿using System;
+using System.ComponentModel;
 using lights.api.JsonConverters;
+using lights.api.TypeConverters;
 using Newtonsoft.Json;
 
 namespace lights.api.Models
 {
+    [TypeConverter(typeof(IdTypeConverter<SensorId>))]
+    [JsonConverter(typeof(IdConverter))]
+    public class SensorId : Id
+    {
+        public SensorId(string id)
+            : base(id)
+        {
+        }
+    }
+
     [JsonConverter(typeof(SensorConverter))]
     public class Sensor
     {

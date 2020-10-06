@@ -11,12 +11,12 @@ namespace lights.PrettyPrinters
             return $"{GenericPrettyPrinter.CheckBox(light.State.On ?? false)} ({light.State.Brightness})\t{light.Name}";
         }
 
-        public static string BasicInfo(IDictionary<string, Light> lights)
+        public static string BasicInfo(IDictionary<LightId, Light> lights)
         {
             var sb = new StringBuilder();
             foreach (var kvp in lights)
             {
-                sb.AppendLine($"{kvp.Key} -- {BasicInfo(kvp.Value)}");
+                sb.AppendLine($"{kvp.Key.Value} -- {BasicInfo(kvp.Value)}");
             }
 
             return sb.ToString();

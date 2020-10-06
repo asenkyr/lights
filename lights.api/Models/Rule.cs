@@ -1,10 +1,23 @@
 ﻿using System;
+using System.ComponentModel;
+using lights.api.JsonConverters;
+using lights.api.TypeConverters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace lights.api.Models
 {
-    public class RuleRest
+    [TypeConverter(typeof(IdTypeConverter<RuleId>))]
+    [JsonConverter(typeof(IdConverter))]
+    public class RuleId : Id
+    {
+        public RuleId(string id)
+            : base(id)
+        {
+        }
+    }
+
+    public class Rule
     {
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -25,10 +38,24 @@ namespace lights.api.Models
         public string Address { get; set; }
 
         [JsonProperty("operator")]
-        public string Operator { get; set; }
+        public Operator Operator { get; set; }
 
         [JsonProperty("value")]
         public string Value { get; set; }
+    }
+
+    [JsonConverter(typeof(OperatorConverter))]
+    public enum Operator
+    {
+        Equal,
+        GreaterThan,
+        LessThan,
+        Value,
+        DelayedValue,
+        Stable,
+        NotStable,
+        In,
+        NotIn
     }
 
     public class ActionRest

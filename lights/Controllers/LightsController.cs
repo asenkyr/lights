@@ -29,31 +29,30 @@ namespace lights.Controllers
         [Command("toggle", "ToggleAsync light by it's ID.", "id")]
         public async Task ToggleAsync(string id)
         {
-            var (intId, _) = ParseId(id);
-            await _proxy.ToggleAsync(intId);
+            await _proxy.ToggleAsync(new LightId(id));
         }
 
         [Command("on", "Turn on light by it's ID.", "id")]
         public async Task TurnOnAsync(string id)
         {
-            var (intId, brigthness) = ParseId(id);
-            await _proxy.SetStateAsync(intId, new LightState {On = true, Brightness = brigthness});
+            var (strId, brightness) = ParseId(id);
+            await _proxy.SetStateAsync(new LightId(strId), new LightState {On = true, Brightness = brightness });
         }
 
         [Command("off", "Turn off light by it's ID.", "id")]
         public async Task TurnOffAsync(string id)
         {
-            var (intId, _) = ParseId(id);
-            await _proxy.SetStateAsync(intId, new LightState { On = false });
+            var (strId, _) = ParseId(id);
+            await _proxy.SetStateAsync(new LightId(strId), new LightState { On = false });
         }
 
-        private (int id, int brightness) ParseId(string id)
+        private (string id, int brightness) ParseId(string id)
         {
             if (!id.Contains(":"))
-                return (int.Parse(id), 150);
+                return (id, 150);
 
             var parts = id.Split(":");
-            return (int.Parse(parts[0]), int.Parse(parts[1]));
+            return (parts[0], int.Parse(parts[1]));
         }
     }
 }

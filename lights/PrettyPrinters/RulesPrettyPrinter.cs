@@ -6,17 +6,17 @@ namespace lights.PrettyPrinters
 {
     public static class RulesPrettyPrinter
     {
-        public static string BasicInfo(RuleRest groupRest)
+        public static string BasicInfo(Rule @group)
         {
-            return $"{groupRest.Name}";
+            return $"{@group.Name}";
         }
 
-        public static string BasicInfo(IDictionary<string, RuleRest> groups)
+        public static string BasicInfo(IDictionary<RuleId, Rule> groups)
         {
             var sb = new StringBuilder();
             foreach (var kvp in groups)
             {
-                sb.AppendLine($"{kvp.Key} -- {BasicInfo(kvp.Value)}");
+                sb.AppendLine($"{kvp.Key.Value} -- {BasicInfo(kvp.Value)}");
             }
 
             return sb.ToString();

@@ -11,22 +11,22 @@ namespace lights.api.Proxy
     public class RulesProxy
     {
         private readonly ApplicationConfig _applicationConfig;
-        private readonly IRulesApi _lightsApi;
+        private readonly IRulesApi _rulesApi;
 
         public RulesProxy(ApplicationConfig applicationConfig)
         {
             _applicationConfig = applicationConfig ?? throw new ArgumentNullException(nameof(applicationConfig));
-            _lightsApi = RestService.For<IRulesApi>(_applicationConfig.BridgeConfig.HueBridgeUri);
+            _rulesApi = RestService.For<IRulesApi>(_applicationConfig.BridgeConfig.HueBridgeUri);
         }
 
-        public async Task<Dictionary<string, RuleRest>> GetScenesAsync()
+        public async Task<Dictionary<RuleId, Rule>> GetRulesAsync()
         {
-            return await _lightsApi.GetRules(_applicationConfig.BridgeConfig.UserName);
+            return await _rulesApi.GetRules(_applicationConfig.BridgeConfig.UserName);
         }
 
-        public async Task<RuleRest> GetSceneAsync(int id)
+        public async Task<Rule> GetRuleAsync(RuleId id)
         {
-            return await _lightsApi.GetRule(_applicationConfig.BridgeConfig.UserName, id);
+            return await _rulesApi.GetRule(_applicationConfig.BridgeConfig.UserName, id);
         }
     }
 }

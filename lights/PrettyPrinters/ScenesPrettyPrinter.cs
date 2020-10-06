@@ -12,12 +12,12 @@ namespace lights.PrettyPrinters
             return $"{scene.Name}, Group:{scene.Group}, Lights:{ArrayToString(scene.Lights)}";
         }
 
-        public static string BasicInfo(IDictionary<string, Scene> scenes)
+        public static string BasicInfo(IDictionary<SceneId, Scene> scenes)
         {
             var sb = new StringBuilder();
             foreach (var kvp in scenes)
             {
-                sb.AppendLine($"{kvp.Key} -- {BasicInfo(kvp.Value)}");
+                sb.AppendLine($"{kvp.Key.Value} -- {BasicInfo(kvp.Value)}");
             }
 
             return sb.ToString();

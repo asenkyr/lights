@@ -18,12 +18,12 @@ namespace lights.PrettyPrinters
             return $"{sensor.Name}";
         }
 
-        public static string BasicInfo(IDictionary<string, Sensor> sensors)
+        public static string BasicInfo(IDictionary<SensorId, Sensor> sensors)
         {
             var sb = new StringBuilder();
             foreach (var kvp in sensors)
             {
-                sb.AppendLine($"{kvp.Key} -- {BasicInfo(kvp.Value)}");
+                sb.AppendLine($"{kvp.Key.Value} -- {BasicInfo(kvp.Value)}");
             }
 
             return sb.ToString();

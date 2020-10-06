@@ -11,22 +11,22 @@ namespace lights.api.Proxy
     public class GroupsProxy
     {
         private readonly ApplicationConfig _applicationConfig;
-        private readonly IGroupsApi _lightsApi;
+        private readonly IGroupsApi _groupsApi;
 
         public GroupsProxy(ApplicationConfig applicationConfig)
         {
             _applicationConfig = applicationConfig ?? throw new ArgumentNullException(nameof(applicationConfig));
-            _lightsApi = RestService.For<IGroupsApi>(_applicationConfig.BridgeConfig.HueBridgeUri);
+            _groupsApi = RestService.For<IGroupsApi>(_applicationConfig.BridgeConfig.HueBridgeUri);
         }
 
-        public async Task<Dictionary<string, Group>> GetScenesAsync()
+        public async Task<Dictionary<GroupId, Group>> GetGroupsAsync()
         {
-            return await _lightsApi.GetGroups(_applicationConfig.BridgeConfig.UserName);
+            return await _groupsApi.GetGroups(_applicationConfig.BridgeConfig.UserName);
         }
 
-        public async Task<Group> GetSceneAsync(int id)
+        public async Task<Group> GetGroupAsync(GroupId id)
         {
-            return await _lightsApi.GetGroup(_applicationConfig.BridgeConfig.UserName, id);
+            return await _groupsApi.GetGroup(_applicationConfig.BridgeConfig.UserName, id);
         }
     }
 }

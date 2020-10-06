@@ -8,9 +8,9 @@ namespace lights.api.Apis
     public interface IGroupsApi
     {
         [Get("/{username}/groups")]
-        Task<Dictionary<string, Group>> GetGroups(string username);
+        Task<Dictionary<GroupId, Group>> GetGroups(string username);
 
         [Get("/{username}/groups/{id}")]
-        Task<Group> GetGroup(string username, int id);
+        Task<Group> GetGroup(string username, GroupId id);
     }
 }

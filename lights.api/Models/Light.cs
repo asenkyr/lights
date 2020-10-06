@@ -1,12 +1,22 @@
-﻿using Newtonsoft.Json;
+﻿using System.ComponentModel;
+using lights.api.JsonConverters;
+using lights.api.TypeConverters;
+using Newtonsoft.Json;
 
 namespace lights.api.Models
 {
+    [TypeConverter(typeof(IdTypeConverter<LightId>))]
+    [JsonConverter(typeof(IdConverter))]
+    public class LightId : Id
+    {
+        public LightId(string id)
+            : base(id)
+        {
+        }
+    }
+
     public class Light
     {
-        [JsonProperty("uniqueid")]
-        public string Uid { get; set; }
-
         [JsonProperty("name")]
         public string Name { get; set; }
 

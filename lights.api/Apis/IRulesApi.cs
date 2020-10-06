@@ -8,9 +8,9 @@ namespace lights.api.Apis
     public interface IRulesApi
     {
         [Get("/{username}/rules")]
-        Task<Dictionary<string, RuleRest>> GetRules(string username);
+        Task<Dictionary<RuleId, Rule>> GetRules(string username);
 
         [Get("/{username}/rules/{id}")]
-        Task<RuleRest> GetRule(string username, int id);
+        Task<Rule> GetRule(string username, RuleId id);
     }
 }

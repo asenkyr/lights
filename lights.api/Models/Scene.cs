@@ -1,11 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using lights.api.JsonConverters;
+using lights.api.TypeConverters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace lights.api.Models
 {
+    [TypeConverter(typeof(IdTypeConverter<SceneId>))]
+    [JsonConverter(typeof(IdConverter))]
+    public class SceneId : Id
+    {
+        public SceneId(string id)
+            : base(id)
+        {
+        }
+    }
+
     public class Scene
     {
         [JsonProperty("id")]
