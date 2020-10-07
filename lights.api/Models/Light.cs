@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using lights.api.JsonConverters;
 using lights.api.TypeConverters;
 using Newtonsoft.Json;
@@ -52,5 +53,8 @@ namespace lights.api.Models
 
         [JsonProperty("scene")]
         public string SceneId { get; set; }
+
+        [JsonProperty("transitiontime")]
+        public int? TransitionTime { get; set; }
     }
 }

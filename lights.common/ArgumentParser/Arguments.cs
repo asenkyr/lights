@@ -8,12 +8,6 @@ namespace lights.common.ArgumentParser
         private readonly Dictionary<string, object> _arguments;
         private readonly Queue<string> _positionalArguments;
 
-        public int PositionalCount =>
-            _positionalArguments.Count;
-
-        public int NamedCount
-            => _arguments.Count;
-
         public static Arguments Empty()
         {
             return new Arguments(new Dictionary<string, object>(), new List<string>());
@@ -31,7 +25,7 @@ namespace lights.common.ArgumentParser
             return (T)value;
         }
 
-        public T PopValue<T>(string argumentName)
+        public T TakeValue<T>(string argumentName)
         {
             _arguments.TryGetValue(argumentName, out var value);
             _arguments.Remove(argumentName);
@@ -46,32 +40,35 @@ namespace lights.common.ArgumentParser
             return true;
         }
 
-        public bool PopFlag(string flagName)
+        public bool TakeFlag(string flagName)
         {
             _arguments.TryGetValue(flagName, out var value);
             _arguments[flagName] = false;
             if (value == null)
                 return false;
-            return true;
+            return (bool)value;
         }
 
-        public string[] GetPositionalArguments()
-        {
-            return _positionalArguments
+        public string[] PositionalArguments 
+            => _positionalArguments
                 .ToArray();
-        }
 
-        public string PeekPositionalArguments()
+        public string PeekPositional()
         {
             return _positionalArguments.Peek();
         }
 
-        public string PopPositionalArguments()
+        public string TakePositional()
         {
             return _positionalArguments.Dequeue();
         }
 
-        public string[] PopPositionalArguments(int count)
+        public bool TryTakePositional(out string result)
+        {
+            return _positionalArguments.TryDequeue(out result);
+        }
+
+        public string[] TakePositional(int count)
         {
             var result = new List<string>();
             for (int i = 0; i < count; i++)

@@ -35,10 +35,17 @@ namespace lights.Controllers
         [Command("on", "Turn on light by it's ID.", "id")]
         public async Task TurnOnAsync(string id)
         {
-            var brightness = Arguments.PopValue<int?>("brightness");
-            var temperature = Arguments.PopValue<int?>("temperature");
+            var brightness = Arguments.TakeValue<int?>(Constants.Arguments.Brightness);
+            var temperature = Arguments.TakeValue<int?>(Constants.Arguments.Temperature);
+            var transitionTime = Arguments.TakeValue<int?>(Constants.Arguments.TransitionTime);
             await _proxy.SetStateAsync(new LightId(id), 
-                new LightState {On = true, Brightness = brightness, ColorTemperature = temperature});
+                new LightState
+                {
+                    On = true, 
+                    Brightness = brightness, 
+                    ColorTemperature = temperature,
+                    TransitionTime = transitionTime
+                });
         }
 
         [Command("off", "Turn off light by it's ID.", "id")]

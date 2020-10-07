@@ -17,12 +17,12 @@ namespace lights.Controllers
         
         public async Task ProcessAsync(Arguments arguments)
         {
-            var commandAndArgs = GetCommand(arguments);
+            arguments.TryTakePositional(out var command);
 
             var method = GetType()
                 .GetMethods()
                 .WithAttribute<CommandAttribute>(attribute => 
-                    attribute.Command == commandAndArgs.command)
+                    attribute.Command == command)
                 .FirstOrDefault();
 
             if (method == null)
@@ -33,19 +33,20 @@ namespace lights.Controllers
 
             var attribute = method.GetAttribute<CommandAttribute>();
 
-            var argsCount = attribute.Arguments.Length;
-            if (argsCount == 0)
+            var requiredNumberOfArguments = attribute.Arguments.Length;
+            
+            if (requiredNumberOfArguments == 0)
             {
-                Arguments = commandAndArgs.args;
+                Arguments = arguments;
                 var result = (Task)method.Invoke(this, null);
                 await result;
                 return;
             }
 
-            if (argsCount <= commandAndArgs.args.PositionalCount)
+            if (requiredNumberOfArguments <= arguments.PositionalArguments.Length)
             {
-                var commandArguments = commandAndArgs.args.PopPositionalArguments(argsCount);
-                Arguments = commandAndArgs.args;
+                var commandArguments = arguments.TakePositional(requiredNumberOfArguments);
+                Arguments = arguments;
                 var result = (Task)method.Invoke(this, commandArguments);
                 await result;
                 return;
@@ -59,14 +60,6 @@ namespace lights.Controllers
         public void Default()
         {
             PrintUsage();
-        }
-
-        private (string command, Arguments args) GetCommand(Arguments args)
-        {
-            if(args.GetPositionalArguments().Length > 0)
-                return (args.PopPositionalArguments(), args);
-
-            return (null, args);
         }
 
         protected void PrintUsage()
