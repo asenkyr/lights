@@ -18,10 +18,10 @@ namespace lights
 
             var parsedArguments = ArgumentParserBuilder
                 .Create()
-                .AddFlag("i", false)
                 .AddArgument<int?>(Constants.Arguments.Brightness, null)
                 .AddArgument<int?>(Constants.Arguments.Temperature, null)
                 .AddArgument<int?>(Constants.Arguments.TransitionTime, null)
+                .AddFlag(Constants.Arguments.Interactive, false)
                 .Build()
                 .Parse(args);
 

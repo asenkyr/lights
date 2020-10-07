@@ -42,7 +42,7 @@ namespace lights.api.Models
         [JsonProperty("ct")]
         public int? ColorTemperature { get; set; }
 
-        [JsonProperty("ct-inc")]
+        [JsonProperty("ct_inc")]
         public int? ColorTemperatureIncrement { get; set; }
 
         [JsonProperty("alert")]

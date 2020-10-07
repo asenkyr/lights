@@ -37,7 +37,7 @@ namespace lights.common.ArgumentParser
             _arguments.TryGetValue(flagName, out var value);
             if (value == null)
                 return false;
-            return true;
+            return (bool)value;
         }
 
         public bool TakeFlag(string flagName)

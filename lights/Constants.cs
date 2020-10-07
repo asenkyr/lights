@@ -7,6 +7,7 @@
             public const string Brightness = "bri";
             public const string Temperature = "temp";
             public const string TransitionTime = "transtime";
+            public const string Interactive = "i";
         }
     }
 }
