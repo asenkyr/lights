@@ -1,3 +1,4 @@
+using System;
 using lights.common.ArgumentParser;
 using NUnit.Framework;
 using FluentAssertions;
@@ -11,14 +12,13 @@ namespace lights.common.tests
         {
             var argumentParser = ArgumentParserBuilder
                 .Create()
-                .AddFlag("enabled", "false")
+                .AddFlag("enabled", false)
                 .Build();
 
-            argumentParser.Parse(new[] { "foo", "bar", "--enabled", "baz" });
+            var arguments = argumentParser.Parse(new[] { "foo", "bar", "--enabled", "baz" });
+            arguments.PeekFlag("enabled").Should().Be(true);
 
-            argumentParser.GetFlag("enabled").Should().Be(true);
-
-            var positionalArguments = argumentParser.GetPositionalArguments();
+            var positionalArguments = arguments.GetPositionalArguments();
             positionalArguments.Length.Should().Be(3);
             positionalArguments.Should().BeEquivalentTo(new[] { "foo", "bar", "baz" });
         }
@@ -28,16 +28,61 @@ namespace lights.common.tests
         {
             var argumentParser = ArgumentParserBuilder
                 .Create()
-                .AddFlag("enabled", "false")
+                .AddFlag("enabled", false)
                 .Build();
 
-            argumentParser.Parse(new[] { "foo", "bar", "baz" });
+            var arguments = argumentParser.Parse(new[] { "foo", "bar", "baz" });
 
-            argumentParser.GetValue<bool>("enabled").Should().Be(false);
+            arguments.PeekValue<bool>("enabled").Should().Be(false);
 
-            var positionalArguments = argumentParser.GetPositionalArguments();
+            var positionalArguments = arguments.GetPositionalArguments();
             positionalArguments.Length.Should().Be(3);
             positionalArguments.Should().BeEquivalentTo(new[] { "foo", "bar", "baz" });
+        }
+
+        [Test]
+        public void ParseArguments_Positional_Arg()
+        {
+            var argumentParser = ArgumentParserBuilder
+                .Create()
+                .AddArgument<int>("enabled", 150)
+                .Build();
+
+            var arguments = argumentParser.Parse(new[] { "foo", "bar", "baz", "--enabled", "400" });
+
+            arguments.PeekValue<int>("enabled").Should().Be(400);
+
+            var positionalArguments = arguments.GetPositionalArguments();
+            positionalArguments.Length.Should().Be(3);
+            positionalArguments.Should().BeEquivalentTo(new[] { "foo", "bar", "baz" });
+        }
+
+        [Test]
+        public void ParseArguments_Positional_UnsetArg()
+        {
+            var argumentParser = ArgumentParserBuilder
+                .Create()
+                .AddArgument<int>("enabled", 150)
+                .Build();
+
+            var arguments = argumentParser.Parse(new[] { "foo", "bar", "baz" });
+
+            arguments.PeekValue<int>("enabled").Should().Be(150);
+
+            var positionalArguments = arguments.GetPositionalArguments();
+            positionalArguments.Length.Should().Be(3);
+            positionalArguments.Should().BeEquivalentTo(new[] { "foo", "bar", "baz" });
+        }
+
+        [Test]
+        public void ParseArguments_UnknownNamedArg()
+        {
+            var argumentParser = ArgumentParserBuilder
+                .Create()
+                .Build();
+
+            var parse = new Action(() => argumentParser.Parse(new[] { "foo", "bar", "baz", "--enabled" }));
+            parse.Should().Throw<ArgumentException>();
         }
     }
 }

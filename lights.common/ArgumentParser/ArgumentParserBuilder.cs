@@ -13,13 +13,13 @@ namespace lights.common.ArgumentParser
             return new ArgumentParserBuilder();
         }
 
-        public ArgumentParserBuilder AddFlag(string shortName, string defaultValue)
+        public ArgumentParserBuilder AddFlag(string shortName, bool defaultValue)
         {
             _argumentDescriptors[shortName] = new ArgumentDescriptor(shortName, typeof(bool), defaultValue);
             return this;
         }
 
-        public ArgumentParserBuilder AddArgument<T>(string shortName, string name, string defaultValue)
+        public ArgumentParserBuilder AddArgument<T>(string shortName, T defaultValue)
         {
             _argumentDescriptors[shortName] = new ArgumentDescriptor(shortName, typeof(T), defaultValue);
             return this;

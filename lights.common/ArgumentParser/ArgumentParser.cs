@@ -6,18 +6,22 @@ namespace lights.common.ArgumentParser
 {
     public class ArgumentParser
     {
-        private Dictionary<string, object> _arguments = new Dictionary<string, object>();
-        private List<string> _positionalArguments = new List<string>();
+        
 
-        private Dictionary<string, ArgumentDescriptor> _argumentDescriptors;
+        private readonly Dictionary<string, ArgumentDescriptor> _argumentDescriptors;
 
         public ArgumentParser(Dictionary<string, ArgumentDescriptor> argumentDescriptors)
         {
             _argumentDescriptors = argumentDescriptors ?? throw new ArgumentNullException(nameof(argumentDescriptors));
         }
 
-        public void Parse(string[] args)
+        public Arguments Parse(string[] args)
         {
+            var arguments = new Dictionary<string, object>();
+            var positionalArguments = new List<string>();
+
+            PreFillArguments(arguments);
+
             using var enumerator = args
                 .AsEnumerable()
                 .GetEnumerator();
@@ -27,15 +31,16 @@ namespace lights.common.ArgumentParser
                 string current = enumerator.Current;
                 if (!IsArgument(current))
                 {
-                    _positionalArguments.Add(current);
+                    positionalArguments.Add(current);
                     continue;
                 }
 
-                var descriptor = _argumentDescriptors[NormalizeArgName(current)];
+                if(!_argumentDescriptors.TryGetValue(NormalizeArgName(current), out var descriptor))
+                    throw new ArgumentException($"Unknown argument '{current}'");
                 
                 if (descriptor.Type == typeof(bool))
                 {
-                    _arguments[NormalizeArgName(current)] = true;
+                    arguments[NormalizeArgName(current)] = true;
                     continue;
                 }
 
@@ -43,35 +48,18 @@ namespace lights.common.ArgumentParser
                 EnsureValue(current);
                 var currentValue = ConvertValue(enumerator.Current, descriptor.Type);
 
-                _arguments[NormalizeArgName(current)] = currentValue;
+                arguments[NormalizeArgName(current)] = currentValue;
             }
+
+            return new Arguments(arguments, positionalArguments);
         }
 
-        public T GetValue<T>(string argumentName)
+        private void PreFillArguments(Dictionary<string, object> arguments)
         {
-            _arguments.TryGetValue(argumentName, out var value);
-
-            if (value == null)
+            foreach (var argDesriptor in _argumentDescriptors)
             {
-                var descriptor = _argumentDescriptors[argumentName];
-                return (T)ConvertValue(descriptor.DefaultValue, descriptor.Type);
+                arguments[argDesriptor.Key] = argDesriptor.Value.DefaultValue;
             }
-
-            return (T)value;
-        }
-
-        public bool GetFlag(string flagName)
-        {
-            _arguments.TryGetValue(flagName, out var value);
-            if (value == null)
-                return false;
-            return true;
-        }
-
-        public string[] GetPositionalArguments()
-        {
-            return _positionalArguments
-                .ToArray();
         }
 
         private bool IsArgument(string value)
@@ -81,7 +69,7 @@ namespace lights.common.ArgumentParser
 
         private void EnsureValue(string value)
         {
-            if(IsArgument(value))
+            if(!IsArgument(value))
                 throw new ArgumentException(
                     "Was expecting value for previous argument, but another argument found.");
         }
@@ -95,6 +83,13 @@ namespace lights.common.ArgumentParser
 
             if (type == typeof(int))
             {
+                return int.Parse(value);
+            }
+
+            if (type == typeof(int?))
+            {
+                if (value == null)
+                    return null;
                 return int.Parse(value);
             }
 
