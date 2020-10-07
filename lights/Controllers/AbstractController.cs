@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using lights.Attributes;
+using lights.common.ArgumentParser;
 using lights.Extensions;
 
 namespace lights.Controllers
@@ -12,9 +13,9 @@ namespace lights.Controllers
         private const string DefaultControllerAction = "default";
         protected abstract string Usage { get; }
 
-        protected string[] Arguments { get; private set; } = Array.Empty<string>();
+        protected Arguments Arguments { get; private set; } = Arguments.Empty();
         
-        public async Task ProcessAsync(string[] arguments)
+        public async Task ProcessAsync(Arguments arguments)
         {
             var commandAndArgs = GetCommand(arguments);
 
@@ -40,11 +41,12 @@ namespace lights.Controllers
                 await result;
                 return;
             }
-            
-            if (argsCount <= commandAndArgs.args.Length)
+
+            if (argsCount <= commandAndArgs.args.PositionalCount)
             {
-                Arguments = commandAndArgs.args.Skip(argsCount).ToArray();
-                var result = (Task)method.Invoke(this, commandAndArgs.args.Take(argsCount).ToArray());
+                var commandArguments = commandAndArgs.args.PopPositionalArguments(argsCount);
+                Arguments = commandAndArgs.args;
+                var result = (Task)method.Invoke(this, commandArguments);
                 await result;
                 return;
             }
@@ -59,12 +61,12 @@ namespace lights.Controllers
             PrintUsage();
         }
 
-        private (string command, string[] args) GetCommand(string[] args)
+        private (string command, Arguments args) GetCommand(Arguments args)
         {
-            if(args.Length > 0)
-                return (args[0], args.Skip(1).ToArray());
+            if(args.GetPositionalArguments().Length > 0)
+                return (args.PopPositionalArguments(), args);
 
-            return (null, Array.Empty<string>());
+            return (null, args);
         }
 
         protected void PrintUsage()

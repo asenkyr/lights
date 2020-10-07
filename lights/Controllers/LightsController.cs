@@ -35,24 +35,16 @@ namespace lights.Controllers
         [Command("on", "Turn on light by it's ID.", "id")]
         public async Task TurnOnAsync(string id)
         {
-            var (strId, brightness) = ParseId(id);
-            await _proxy.SetStateAsync(new LightId(strId), new LightState {On = true, Brightness = brightness });
+            var brightness = Arguments.PopValue<int?>("brightness");
+            var temperature = Arguments.PopValue<int?>("temperature");
+            await _proxy.SetStateAsync(new LightId(id), 
+                new LightState {On = true, Brightness = brightness, ColorTemperature = temperature});
         }
 
         [Command("off", "Turn off light by it's ID.", "id")]
         public async Task TurnOffAsync(string id)
         {
-            var (strId, _) = ParseId(id);
-            await _proxy.SetStateAsync(new LightId(strId), new LightState { On = false });
-        }
-
-        private (string id, int brightness) ParseId(string id)
-        {
-            if (!id.Contains(":"))
-                return (id, 150);
-
-            var parts = id.Split(":");
-            return (parts[0], int.Parse(parts[1]));
+            await _proxy.SetStateAsync(new LightId(id), new LightState { On = false });
         }
     }
 }

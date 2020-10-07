@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using lights.api.Proxy;
+using lights.common.ArgumentParser;
 using lights.common.Configuration;
 using lights.Controllers;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,13 +13,21 @@ namespace lights
         static async Task Main(string[] args)
         {
 
-            var services = ConfigureServices();
+            var services = ConfigureServices(args);
             var serviceProvider = services.BuildServiceProvider();
 
-            await serviceProvider.GetService<RootController>().ProcessAsync(args);
+            var parsedArguments = ArgumentParserBuilder
+                .Create()
+                .AddFlag("i", false)
+                .AddArgument<int?>("brightness", null)
+                .AddArgument<int?>("temperature", null)
+                .Build()
+                .Parse(args);
+
+            await serviceProvider.GetService<RootController>().ProcessAsync(parsedArguments);
         }
 
-        private static IServiceCollection ConfigureServices()
+        private static IServiceCollection ConfigureServices(string[] args)
         {
             var services = new ServiceCollection();
 
