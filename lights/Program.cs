@@ -5,6 +5,7 @@ using lights.common.ArgumentParser;
 using lights.common.Configuration;
 using lights.Controllers;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace lights
 {
@@ -12,6 +13,10 @@ namespace lights
     {
         static async Task Main(string[] args)
         {
+            JsonConvert.DefaultSettings = () => new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            };
 
             var services = ConfigureServices(args);
             var serviceProvider = services.BuildServiceProvider();

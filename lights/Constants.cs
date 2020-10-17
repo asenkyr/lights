@@ -9,5 +9,7 @@
             public const string TransitionTime = "transtime";
             public const string Interactive = "i";
         }
+
+        public static string AppIdentifier = "lights-v1";
     }
 }

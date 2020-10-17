@@ -71,8 +71,9 @@ namespace lights.Controllers
                 });
         }
 
-        private async Task SetStateAsyncInteractive(LightId id)
+        public async Task SetStateAsyncInteractive(LightId id)
         {
+            await _proxy.SetStateAsync(id, new LightState {On = true});
             Console.WriteLine("Use arrow keys to adjust brigtnes and temperature. Use 'q' to quit.");
             ConsoleKeyInfo key;
             do

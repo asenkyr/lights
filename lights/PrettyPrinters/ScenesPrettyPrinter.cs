@@ -23,7 +23,7 @@ namespace lights.PrettyPrinters
             return sb.ToString();
         }
 
-        private static string ArrayToString(int[] array)
+        private static string ArrayToString(LightId[] array)
         {
             var sb = new StringBuilder();
             foreach (var item in array)

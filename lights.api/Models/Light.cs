@@ -49,7 +49,7 @@ namespace lights.api.Models
         public string Alert { get; set; }
 
         [JsonProperty("reachable")]
-        public bool IsReachable { get; set; }
+        public bool? IsReachable { get; set; }
 
         [JsonProperty("scene")]
         public string SceneId { get; set; }

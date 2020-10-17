@@ -2,7 +2,7 @@
   "profiles": {
     "lights": {
       "commandName": "Project",
-      "commandLineArgs": "lights"
+      "commandLineArgs": "scenes create -i"
     }
   }
 }

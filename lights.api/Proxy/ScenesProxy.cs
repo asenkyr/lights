@@ -29,5 +29,10 @@ namespace lights.api.Proxy
         {
             return await _scenesApi.GetScene(_applicationConfig.BridgeConfig.UserName, id);
         }
+
+        public async Task<string> CreateScene(Scene scene)
+        {
+            return await _scenesApi.CreateScene(_applicationConfig.BridgeConfig.UserName, scene);
+        }
     }
 }

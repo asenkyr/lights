@@ -12,5 +12,8 @@ namespace lights.api.Apis
 
         [Get("/{username}/scenes/{id}")]
         Task<Scene> GetScene(string username, SceneId id);
+
+        [Post("/{username}/scenes")]
+        Task<string> CreateScene(string username, [Body]Scene scene);
     }
 }

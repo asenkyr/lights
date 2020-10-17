@@ -24,6 +24,11 @@ namespace lights.api.Proxy
             return await _lightsApi.GetLights(_applicationConfig.BridgeConfig.UserName);
         }
 
+        public async Task<Light> GetLightAsync(LightId id)
+        {
+            return await _lightsApi.GetLight(_applicationConfig.BridgeConfig.UserName, id);
+        }
+
         public async Task SetStateAsync(LightId id, LightState state)
         {
             var response = await _lightsApi.SetState(_applicationConfig.BridgeConfig.UserName, id, state);
