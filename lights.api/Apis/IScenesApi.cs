@@ -15,5 +15,9 @@ namespace lights.api.Apis
 
         [Post("/{username}/scenes")]
         Task<string> CreateScene(string username, [Body]Scene scene);
+
+        [Delete("/{username}/scenes/{id}")]
+        Task DeleteScene(string username, SceneId id);
+
     }
 }

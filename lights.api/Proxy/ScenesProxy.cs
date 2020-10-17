@@ -20,19 +20,24 @@ namespace lights.api.Proxy
             _scenesApi = RestService.For<IScenesApi>(_applicationConfig.BridgeConfig.HueBridgeUri);
         }
 
-        public async Task<Dictionary<SceneId, Scene>> GetScenesAsync()
+        public Task<Dictionary<SceneId, Scene>> GetScenesAsync()
         {
-            return await _scenesApi.GetScenes(_applicationConfig.BridgeConfig.UserName);
+            return _scenesApi.GetScenes(_applicationConfig.BridgeConfig.UserName);
         }
 
-        public async Task<Scene> GetSceneAsync(SceneId id)
+        public Task<Scene> GetSceneAsync(SceneId id)
         {
-            return await _scenesApi.GetScene(_applicationConfig.BridgeConfig.UserName, id);
+            return _scenesApi.GetScene(_applicationConfig.BridgeConfig.UserName, id);
         }
 
-        public async Task<string> CreateScene(Scene scene)
+        public Task<string> CreateScene(Scene scene)
         {
-            return await _scenesApi.CreateScene(_applicationConfig.BridgeConfig.UserName, scene);
+            return _scenesApi.CreateScene(_applicationConfig.BridgeConfig.UserName, scene);
+        }
+
+        public Task DeleteSceneAsync(SceneId id)
+        {
+            return _scenesApi.DeleteScene(_applicationConfig.BridgeConfig.UserName, id);
         }
     }
 }

@@ -48,6 +48,12 @@ namespace lights.Controllers
             return CreateSceneInternalAsync();
         }
 
+        [Command("delete", "Deletes scene by id.", "id")]
+        public Task DeleteSceneAsync(string id)
+        {
+            return _scenesProxy.DeleteSceneAsync(new SceneId(id));
+        }
+
         public async Task CreateSceneInternalAsync()
         {
             Console.WriteLine("Available lights:");
