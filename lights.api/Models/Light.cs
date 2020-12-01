@@ -52,7 +52,7 @@ namespace lights.api.Models
         public bool? IsReachable { get; set; }
 
         [JsonProperty("scene")]
-        public string SceneId { get; set; }
+        public SceneId SceneId { get; set; }
 
         [JsonProperty("transitiontime")]
         public int? TransitionTime { get; set; }

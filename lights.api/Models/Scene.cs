@@ -30,7 +30,7 @@ namespace lights.api.Models
         public SceneType Type{ get; set; }
 
         [JsonProperty("group")]
-        public string Group { get; set; }
+        public GroupId Group { get; set; }
 
         [JsonProperty("lights")]
         public LightId[] Lights { get; set; }

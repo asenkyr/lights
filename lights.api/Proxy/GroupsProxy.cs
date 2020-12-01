@@ -28,5 +28,23 @@ namespace lights.api.Proxy
         {
             return await _groupsApi.GetGroup(_applicationConfig.BridgeConfig.UserName, id);
         }
+
+        public Task TurnOnAsync(GroupId id)
+        {
+            return _groupsApi.SetState(_applicationConfig.BridgeConfig.UserName, id,
+                new LightState { On = true });
+        }
+
+        public Task TurnOffAsync(GroupId id)
+        {
+            return _groupsApi.SetState(_applicationConfig.BridgeConfig.UserName, id,
+                new LightState { On = false });
+        }
+
+        public Task SetScene(GroupId id, SceneId sceneId)
+        {
+            return _groupsApi.SetState(_applicationConfig.BridgeConfig.UserName, id,
+                new LightState {SceneId = sceneId});
+        }
     }
 }

@@ -17,15 +17,19 @@ namespace lights.Controllers
             => "Control scenes api.";
 
         private readonly ScenesProxy _scenesProxy;
+        private readonly GroupsController _groupsController;
+        private readonly GroupsProxy _groupsProxy;
         private readonly LightsController _lightsController;
         private readonly LightsProxy _lightsProxy;
 
-        public ScenesController(ScenesProxy scenesProxy, LightsController lightsController,
-            LightsProxy lightsProxy)
+        public ScenesController(ScenesProxy scenesProxy, GroupsController groupsController,
+            LightsProxy lightsProxy, LightsController lightsController, GroupsProxy groupsProxy)
         {
             _scenesProxy = scenesProxy ?? throw new ArgumentNullException(nameof(scenesProxy));
-            _lightsController = lightsController ?? throw new ArgumentNullException(nameof(lightsController));
+            _groupsController = groupsController ?? throw new ArgumentNullException(nameof(groupsController));
             _lightsProxy = lightsProxy ?? throw new ArgumentNullException(nameof(lightsProxy));
+            _lightsController = lightsController ?? throw new ArgumentNullException(nameof(lightsController));
+            _groupsProxy = groupsProxy ?? throw new ArgumentNullException(nameof(groupsProxy));
         }
 
 
@@ -56,27 +60,27 @@ namespace lights.Controllers
 
         public async Task CreateSceneInternalAsync()
         {
-            Console.WriteLine("Available lights:");
-            await _lightsController.GetLightsAsync();
-
             Console.Write("Enter scene name:");
             var sceneName = Console.ReadLine();
             if (string.IsNullOrEmpty(sceneName))
                 return;
             Console.WriteLine();
 
-            Console.Write("List light id's to include in this scene: ");
-            var lightIds = Console.ReadLine()
-                ?.Split(" ")
-                .Where(str => !string.IsNullOrEmpty(str))
-                .Select(str => new LightId(str))
-                .ToArray();
+            Console.WriteLine("Available groups:");
+            await _groupsController.GetGroupsAsync();
 
-            if (lightIds == null || lightIds.Length == 0)
+            Console.Write("Select group for this scene: ");
+
+            var groupIdstr = Console.ReadLine();
+
+            if (string.IsNullOrEmpty(groupIdstr))
                 return;
 
+            var groupId = new GroupId(groupIdstr);
+            var group = await _groupsProxy.GetGroupAsync(groupId);
+
             var lightStates = new Dictionary<LightId, LightState>();
-            foreach (var id in lightIds)
+            foreach (var id in group.Lights)
             {
                 await _lightsController.SetStateAsyncInteractive(id);
                 var light = await _lightsProxy.GetLightAsync(id);
@@ -89,14 +93,13 @@ namespace lights.Controllers
 
             var scene = new Scene
             {
-                Lights = lightIds,
+                Group = groupId,
                 LightStates = lightStates,
                 Name = sceneName,
-                Type = SceneType.LightScene,
+                Type = SceneType.GroupScene
             };
 
             var responseId = await _scenesProxy.CreateScene(scene);
-            var stri = JsonConvert.SerializeObject(scene);
             if (responseId == null)
             {
                 Console.WriteLine("Error creating scene.");

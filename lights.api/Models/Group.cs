@@ -37,4 +37,10 @@ namespace lights.api.Models
         Entertainment,
         Zone
     }
+
+    /*public class GroupState : LightState
+    {
+        [JsonProperty("scene")]
+        public SceneId SceneId { get; set; }
+    }*/
 }

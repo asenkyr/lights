@@ -57,6 +57,12 @@ namespace lights.Controllers
             return SetStateAsyncInternal(new LightId(id));
         }
 
+        [Command("off", "Turn off light by it's ID.", "id")]
+        public async Task TurnOffAsync(string id)
+        {
+            await _proxy.TurnOffAsync(new LightId(id));
+        }
+
         private Task SetStateAsyncInternal(LightId id)
         {
             var brightness = Arguments.TakeValue<int?>(Constants.Arguments.Brightness);
@@ -82,31 +88,21 @@ namespace lights.Controllers
                 switch (key.Key)
                 {
                     case ConsoleKey.UpArrow:
-                        await _proxy.SetStateAsync(id,
-                            new LightState { BrightnessIncrement = 25, TransitionTime = 1 });
+                        await _proxy.AdjustBrightness(id, 25, 1);
                         break;
 
                     case ConsoleKey.DownArrow:
-                        await _proxy.SetStateAsync(id,
-                            new LightState { BrightnessIncrement = -25, TransitionTime = 1 });
+                        await _proxy.AdjustBrightness(id, -25, 1);
                         break;
                     case ConsoleKey.LeftArrow:
-                        await _proxy.SetStateAsync(id,
-                            new LightState { ColorTemperatureIncrement = -25, TransitionTime = 1 });
+                        await _proxy.AdjustTemperature(id, -25, 1);
                         break;
 
                     case ConsoleKey.RightArrow:
-                        await _proxy.SetStateAsync(id,
-                            new LightState { ColorTemperatureIncrement = 25, TransitionTime = 1 });
+                        await _proxy.AdjustTemperature(id, 25, 1);
                         break;
                 }
             } while (key.Key != ConsoleKey.Q);
-        }
-
-        [Command("off", "Turn off light by it's ID.", "id")]
-        public async Task TurnOffAsync(string id)
-        {
-            await _proxy.SetStateAsync(new LightId(id), new LightState { On = false });
         }
     }
 }

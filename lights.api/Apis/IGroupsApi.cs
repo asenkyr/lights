@@ -12,5 +12,8 @@ namespace lights.api.Apis
 
         [Get("/{username}/groups/{id}")]
         Task<Group> GetGroup(string username, GroupId id);
+
+        [Put("/{username}/groups/{id}/action")]
+        Task SetState(string username, GroupId id, [Body]LightState state);
     }
 }
